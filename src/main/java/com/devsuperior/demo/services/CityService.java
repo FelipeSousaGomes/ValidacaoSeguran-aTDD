@@ -22,4 +22,13 @@ public class CityService {
     List<City> cities = cityRepository.findAll(Sort.by("name"));
     return cities.stream().map(x -> new CityDTO(x)).collect(Collectors.toList());
     }
+
+    public CityDTO insert(CityDTO cityDTO) {
+        City city = new City();
+        city.setName(cityDTO.getName());
+        city = cityRepository.save(city);
+        return new CityDTO(city);
+    }
+
+
 }

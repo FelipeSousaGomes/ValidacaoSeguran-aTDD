@@ -1,4 +1,4 @@
-package br.devsuperior.dscatalog.exceptions;
+package com.devsuperior.demo.exceptions;
 
 import java.time.Instant;
 

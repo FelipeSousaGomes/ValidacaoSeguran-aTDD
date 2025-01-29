@@ -1,8 +1,5 @@
-package br.devsuperior.dscatalog.exceptions;
+package com.devsuperior.demo.exceptions;
 
-import org.springframework.validation.FieldError;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

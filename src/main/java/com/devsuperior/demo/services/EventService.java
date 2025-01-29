@@ -6,6 +6,8 @@ import com.devsuperior.demo.entities.Event;
 import com.devsuperior.demo.repositories.CityRepository;
 import com.devsuperior.demo.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,9 +23,9 @@ public class EventService {
 
 
 
-    public List<EventDTO> findAll() {
-        List<Event> events = repository.findAll();
-        return events.stream().map(event -> new EventDTO(event)).collect(Collectors.toList());
+    public Page<EventDTO> findAll(Pageable pageable) {
+        Page<Event> list = repository.findAll(pageable);
+        return list.map(x -> new EventDTO(x));
     }
 
 

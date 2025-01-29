@@ -3,8 +3,12 @@ package com.devsuperior.demo.controller;
 
 import com.devsuperior.demo.dto.EventDTO;
 import com.devsuperior.demo.services.EventService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +27,9 @@ public class EventController {
   private EventService service;
 
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @PostMapping
-    ResponseEntity<EventDTO> insert(@RequestBody EventDTO eventDTO) {
+    ResponseEntity<EventDTO> insert(@Valid @RequestBody EventDTO eventDTO) {
         eventDTO = service.insert(eventDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(eventDTO.getId()).toUri();
@@ -33,7 +37,8 @@ public class EventController {
     }
 
     @GetMapping
-    ResponseEntity<List<EventDTO>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    ResponseEntity<Page<EventDTO>> findAll(Pageable pageable) {
+        Page<EventDTO> page = service.findAll(pageable);
+        return ResponseEntity.ok(page);
     }
 }
